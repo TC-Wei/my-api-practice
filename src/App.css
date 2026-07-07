@@ -36,3 +36,13 @@
     transform: rotate(360deg);
   }
 }
+button{
+  padding: 8px 8px;
+  margin: 16px 16px;
+  color: white;
+  background-color: #1f2125;
+  border: 1px solid white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 32px;
+}
