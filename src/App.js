@@ -8,9 +8,14 @@ function App() {
 
   useEffect(()=>{
     const fetchData = axios.get('https://jsonplaceholder.typicode.com/todos')
-    .then((res)=>{setTodos(res.data)}) 
+    .then((res)=>{setTodos(res.data)})
+    .catch((err) => { console.error('抓取資料失敗:', err) }) 
   },[])
   const editTodo = (id,newTitle)=>{
+    if(inputText === ''){
+      alert('請輸入代辦事項')
+      return
+    }
     setTodos(todos.map((todo)=>{
       if(todo.id === id){
         return{...todo,title:newTitle}
@@ -18,7 +23,7 @@ function App() {
         return todo
       }
     }))
-  }
+  setInputText('')}
   const addTodo = (newTitle)=>{
     if(inputText === ''){
       alert('請輸入代辦事項')
@@ -39,13 +44,16 @@ function App() {
         <div>
         <h1>API 練習</h1>
         <input placeholder="請輸入代辦事項"value={inputText} onChange={(e)=>{setInputText(e.target.value)}}/>
-        <button onClick={()=>{editTodo(2,inputText)}}>edit</button>
-        <button onClick={()=>{addTodo(inputText)}}>add</button>
-        <button onClick={()=>{deleteTodo(2)}}>delete</button>
+        <button onClick={()=>{addTodo(inputText)}}>add</button>{/* 新增 */}
+        <button onClick={()=> {setTodos([])}}>clear all</button> {/* 刪除全部 */}
         <ol>
           {todos.map((todo)=>{
             return (
-              <li key={todo.id}>{todo.title}</li>
+              <li key={todo.id}>{todo.title}
+              <button onClick={()=>{editTodo(todo.id,inputText)}}>edit</button>
+              <button onClick={()=>{deleteTodo(todo.id)}}>delete</button>
+
+              </li>
             )
           })}
         </ol>
